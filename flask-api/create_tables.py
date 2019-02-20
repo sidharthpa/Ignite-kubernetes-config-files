@@ -15,7 +15,7 @@ create table similarproducts(
 	similar_product_id VARCHAR ,
 	similariy_score DOUBLE ,
 	PRIMARY KEY (product_id, similar_product_id)
-)
+) WITH "affinityKey=similar_product_id"
 '''
 client.sql(SIMILARPRODUCTS_CREATE_TABLE)
 
