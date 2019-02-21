@@ -16,7 +16,8 @@ class SimilarProducts(Resource):
 		where similarproducts.product_id = ? 
 		'''
 		SIMILAR_PRODUCTS_ARGS = [product_id]
-		result = db.getData(SIMILAR_PRODUCTS_QUERY, SIMILAR_PRODUCTS_ARGS, include_field_names=True)
+		client = db.getClient()
+		result = client.sql(query_str=SIMILAR_PRODUCTS_QUERY, query_args=SIMILAR_PRODUCTS_ARGS, include_field_names=True)
 		returnList = []
 		for i,row in enumerate(result):
 			if i == 0 :
