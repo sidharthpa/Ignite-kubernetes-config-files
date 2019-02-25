@@ -5,7 +5,7 @@ metadata:
   # The name must be equal to TcpDiscoveryKubernetesIpFinder.serviceName
   name: ignite
   # The name must be equal to TcpDiscoveryKubernetesIpFinder.namespaceName
-  namespace: ignite
+  namespace: api-serving-layer 
 spec:
   ports:
     - name: rest
@@ -27,7 +27,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-      storage: 1Gi
+      storage: 2Gi
   hostPath:
     path: "/home/ubuntu/PV/ignite"
 
@@ -41,7 +41,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-      storage: 1Gi
+      storage: 2Gi
   hostPath:
     path: "/home/ubuntu/PV/ignite"
 
@@ -52,7 +52,7 @@ apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
   name: ignite
-  namespace: ignite
+  namespace: api-serving-layer
 spec:
   selector:
     matchLabels:
@@ -64,10 +64,17 @@ spec:
       labels:
         app: ignite
     spec:
-      serviceAccountName: ignite
+      serviceAccountName: api-serving-account 
       containers:
       - name: ignite
         image: apacheignite/ignite:2.7.0
+        resources: 
+          requests:
+            memory: 2Gi
+            cpu: 500m
+          limits:
+            memory: 2Gi
+            cpu: 1000m
         env:
         - name: OPTION_LIBS
           value: ignite-kubernetes,ignite-rest-http
@@ -96,5 +103,5 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 1Gi
+          storage: 2Gi
 
